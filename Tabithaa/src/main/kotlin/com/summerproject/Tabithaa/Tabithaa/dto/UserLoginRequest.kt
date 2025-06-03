@@ -1,6 +1,6 @@
 package com.summerproject.Tabithaa.Tabithaa.dto
 
-data class UserLogin (
+data class UserLoginRequest (
     val email:String,
     val password:String,
 )

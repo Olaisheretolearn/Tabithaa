@@ -10,5 +10,7 @@ data class User(
     val email:String,
     val hashedPassword :String,
     val avatarUrl :String?=null,
-    val createdAt: Instant = Instant.now()
+    val createdAt: Instant = Instant.now(),
+    val isActive: Boolean = true
+
 )
