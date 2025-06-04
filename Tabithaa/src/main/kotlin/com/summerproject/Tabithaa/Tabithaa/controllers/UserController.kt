@@ -13,7 +13,7 @@ class UserController(
     private val userService : UserService
 ) {
 
-    @PostMapping
+    @PostMapping("/register")
     fun createUser(@RequestBody request :UserRegisterRequest):ResponseEntity<UserResponse>{
         val createdUser = userService.createUser(request)
         return ResponseEntity.ok(createdUser)

@@ -1,7 +1,9 @@
 package com.summerproject.Tabithaa.Tabithaa.security
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.stereotype.Component
 
+@Component
 class Encoder {
     private val bcrypt = BCryptPasswordEncoder()
 

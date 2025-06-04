@@ -1,11 +1,13 @@
-package com.summerlockin.bookmark.Tabitha.security
+package com.summerproject.Tabithaa.Tabithaa.security
 
+import com.summerproject.Tabithaa.Tabithaa.security.CustomUserDetailsService
 import com.summerproject.Tabithaa.Tabithaa.security.JwtAuthFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -14,29 +16,32 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
+@EnableWebSecurity
 class SecurityConfig(
     private val jwtAuthFilter: JwtAuthFilter,
-    private val userDetailsService: UserDetailsService,
+    private val userDetailsService: CustomUserDetailsService
 ) {
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        return http
+            .csrf { it.disable() }
+            .sessionManagement {
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .authorizeHttpRequests {
+                it
+                    .requestMatchers("/api/auth/**", "/api/users/register").permitAll()
+                    .anyRequest().authenticated()
+            }
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .build()
+    }
 
     @Bean
     fun authenticationManager(config: AuthenticationConfiguration): AuthenticationManager =
         config.authenticationManager
 
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        return http
-            .csrf { it.disable() }
-            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .authorizeHttpRequests {
-                it
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .anyRequest().authenticated()
-            }
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
-            .build()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 }

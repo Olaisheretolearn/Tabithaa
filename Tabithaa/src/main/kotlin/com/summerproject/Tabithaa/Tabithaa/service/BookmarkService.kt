@@ -13,9 +13,9 @@ class BookmarkService(
     private val repository: BookmarkRepository
 ) {
 
-    fun create(request: BookmarkRequest): BookmarkResponse {
+    fun create(userId: String, request: BookmarkRequest): BookmarkResponse {
         val bookmark = Bookmark(
-            userId = "demo-user",
+            userId = userId,
             title = request.title,
             url = request.url,
             folder = request.folder,
@@ -23,6 +23,7 @@ class BookmarkService(
         )
         return repository.save(bookmark).toDto()
     }
+
 
     fun delete(id: String) {
         repository.deleteById(ObjectId(id))

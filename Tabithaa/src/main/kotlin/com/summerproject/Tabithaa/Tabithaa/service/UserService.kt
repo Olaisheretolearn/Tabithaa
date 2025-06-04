@@ -5,6 +5,7 @@ import com.summerproject.Tabithaa.Tabithaa.dto.UserResponse
 import com.summerproject.Tabithaa.Tabithaa.dto.UserUpdateRequest
 import com.summerproject.Tabithaa.Tabithaa.model.User
 import com.summerproject.Tabithaa.Tabithaa.repository.UserRepository
+import com.summerproject.Tabithaa.Tabithaa.security.Encoder
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,16 +13,25 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val encoder: Encoder
+
 ) {
-        fun createUser(request:UserRegisterRequest):UserResponse{
-            val user = User(
-               email= request.email,
-                hashedPassword = request.password,
-                avatarUrl = request.avatarUrl
-            )
-            return userRepository.save(user).toDto()
+
+    fun createUser(request: UserRegisterRequest): UserResponse {
+        if (userRepository.findByEmailIgnoreCase(request.email) != null) {
+            throw IllegalArgumentException("User with email already exists.")
         }
+
+        val user = User(
+            email = request.email,
+            hashedPassword = encoder.encode(request.password),
+            avatarUrl = request.avatarUrl
+        )
+        return userRepository.save(user).toDto()
+    }
+
+
 
     fun findUserById(userId :String):UserResponse {
         val user =  userRepository.findById(ObjectId(userId))
