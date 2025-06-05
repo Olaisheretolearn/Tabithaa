@@ -33,12 +33,13 @@ class BookmarkService(
         var bookmarks = repository.findByUserId(userId)
 
         if (folder != null) {
-            bookmarks = bookmarks.filter { it.folder == folder }
+            bookmarks = bookmarks.filter { it.folder.equals(folder, ignoreCase = true) }
         }
 
         if (tag != null) {
-            bookmarks = bookmarks.filter { it.tags.contains(tag) }
+            bookmarks = bookmarks.filter { tag.lowercase() in it.tags.map { t -> t.lowercase() } }
         }
+
 
         bookmarks = when (sort.lowercase()) {
             "asc" -> bookmarks.sortedBy { it.createdAt }

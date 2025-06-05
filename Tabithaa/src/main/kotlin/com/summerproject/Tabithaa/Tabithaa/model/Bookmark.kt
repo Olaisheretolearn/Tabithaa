@@ -15,3 +15,6 @@ data class Bookmark(
     val folder: String? = null,
     val createdAt: Instant = Instant.now()
 )
+
+
+//designed the wireframes no cow

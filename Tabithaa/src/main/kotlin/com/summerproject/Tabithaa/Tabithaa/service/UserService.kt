@@ -26,7 +26,8 @@ class UserService(
         val user = User(
             email = request.email,
             hashedPassword = encoder.encode(request.password),
-            avatarUrl = request.avatarUrl
+            avatarUrl = request.avatarUrl,
+            firstName = request.firstName
         )
         return userRepository.save(user).toDto()
     }
@@ -68,7 +69,8 @@ class UserService(
             id = this.id?.toHexString() ?: "no-id",
             email = this.email,
             avatarUrl = this.avatarUrl,
-            createdAt = this.createdAt.toString()
+            createdAt = this.createdAt.toString(),
+            firstName = this.firstName
         )
     }
 

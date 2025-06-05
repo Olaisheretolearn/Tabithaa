@@ -7,6 +7,7 @@ import java.time.Instant
 @Document("users")
 data class User(
     @Id val id :ObjectId?=null,
+    val firstName:String,
     val email:String,
     val hashedPassword :String,
     val avatarUrl :String?=null,
