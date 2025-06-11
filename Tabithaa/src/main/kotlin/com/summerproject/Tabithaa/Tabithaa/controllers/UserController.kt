@@ -25,7 +25,7 @@ class UserController(
         return ResponseEntity.ok(user)
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     fun updateUser(
         @PathVariable id:String,
         @RequestBody request :UserUpdateRequest

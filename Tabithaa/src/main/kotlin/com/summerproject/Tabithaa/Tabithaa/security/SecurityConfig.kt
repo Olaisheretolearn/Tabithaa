@@ -31,7 +31,11 @@ class SecurityConfig(
             }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/api/auth/**", "/api/users/register").permitAll()
+                    .requestMatchers(
+                        "/api/auth/**",
+                        "/api/users/register",
+                        "/api/ping"
+                    ).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
