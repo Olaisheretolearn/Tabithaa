@@ -11,7 +11,6 @@ data class Bookmark(
     val userId: String,
     val title: String,
     val url: String,
-    val description: String? = null,
     val tags: List<String> = listOf(),
     val folder: String? = null,
     val createdAt: Instant = Instant.now()

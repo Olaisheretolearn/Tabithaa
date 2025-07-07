@@ -1,4 +1,4 @@
-  package com.summerproject.Tabithaa.Tabithaa
+package com.summerproject.Tabithaa.Tabithaa
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
