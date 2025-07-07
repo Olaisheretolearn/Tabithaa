@@ -19,8 +19,10 @@ class BookmarkService(
             title = request.title,
             url = request.url,
             folder = request.folder,
-            tags = request.tags
+            tags = request.tags,
+            description = request.description
         )
+
         return repository.save(bookmark).toDto()
     }
 
@@ -56,6 +58,7 @@ class BookmarkService(
             title = update.title ?: bookmark.title,
             url = update.url ?: bookmark.url,
             folder = update.folder ?: bookmark.folder,
+            description = update.description ?: bookmark.description,
             tags = update.tags ?: bookmark.tags
         )
 
@@ -69,6 +72,7 @@ class BookmarkService(
             url = this.url,
             title = this.title,
             folder = this.folder,
+            description = this.description,
             tags = this.tags,
             createdAt = this.createdAt.toString()
         )

@@ -5,6 +5,7 @@ data class BookmarkResponse(
     val url: String,
     val title: String,
     val folder: String?,
+    val description: String?,
     val tags: List<String>,
     val createdAt: String
 )
